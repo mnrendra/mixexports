@@ -1,6 +1,7 @@
 .git
 .github/
 coverage/
+dist/*.map
 node_modules/
 package/
 src/
