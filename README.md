@@ -1,5 +1,10 @@
 # @mnrendra/mixexports
-A function to mix **CommonJS** exports, transforming:
+A function to mix **CommonJS** exports.
+
+## Use cases
+
+### 1. Mix named exports with default export.
+transforming:
 ```javascript
 exports.named1 = 'named1';
 exports.named2 = 'named2';
@@ -12,7 +17,7 @@ exports.named2 = 'named2';
 exports.default = () => 'main';
 module.exports = exports.default;
 Object.defineProperties(module.exports, {
-  __esModule: { value: true },
+  __esModule: { value: exports.__esModule },
   named1: { value: exports.named1 },
   named2: { value: exports.named2 },
   default: { value: exports.default }
@@ -36,7 +41,91 @@ console.log(main()) // will print: 'main'
 console.log(named1) // will print: 'named1'
 console.log(main.named2) // will print: 'named2'
 ```
-*Note: This function uses `Object.defineProperties` to make all the named exports non-enumerable. Therefore, when the consumer logs the default value with `console.log`, all the named exports will be hidden but can still be accessed via destructuring with `import` or `require`.*
+
+### 2. Export all named exports using `module.exports`.
+transforming:
+```javascript
+exports.named1 = 'named1';
+exports.named2 = 'named2';
+```
+to:
+```javascript
+exports.named1 = 'named1';
+exports.named2 = 'named2';
+module.exports = {};
+exports.default = module.exports;
+Object.defineProperties(module.exports, {
+  __esModule: { value: exports.__esModule },
+  named1: { value: exports.named1, enumerable: true },
+  named2: { value: exports.named2, enumerable: true },
+  default: { value: exports.default }
+});
+```
+
+This allows the consumer to `import` or `require` the module in the following ways:
+```javascript
+import main, { named1 } from 'module'
+
+console.log(named1) // will print: 'named1'
+console.log(main.named2) // will print: 'named2'
+```
+or:
+```javascript
+const main = require('module')
+const { named1 } = require('module')
+
+console.log(named1) // will print: 'named1'
+console.log(main.named2) // will print: 'named2'
+```
+
+### 3. Keep external live bindings.
+transforming:
+```javascript
+let amount = 0;
+const increaseAmount = () => {
+  amount = amount + 1;
+};
+
+Object.defineProperty(exports, "amount", { get () { return amount; }, enumerable: true });
+exports.increaseAmount = increaseAmount;
+```
+to:
+```javascript
+let amount = 0;
+const increaseAmount = () => {
+  amount = amount + 1;
+};
+Object.defineProperty(exports, "amount", { get () { return amount; } });
+exports.increaseAmount = increaseAmount;
+module.exports = {};
+exports.default = module.exports;
+Object.defineProperties(exports, {
+  __esModule: { value: exports.__esModule },
+  amount: { get () { return amount; }, enumerable: true },
+  increaseAmount: { value: exports.increaseAmount, enumerable: true },
+  default: { value: exports.default }
+});
+```
+
+This allows the consumer to `import` or `require` the module in the following ways:
+```javascript
+import main, { increaseAmount } from 'module'
+
+console.log(main.amount) // will print: 0
+increaseAmount()
+console.log(main.amount) // will print: 1
+```
+or:
+```javascript
+const main = require('module')
+const { increaseAmount } = require('module')
+
+console.log(main.amount) // will print: 0
+increaseAmount()
+console.log(main.amount) // will print: 1
+```
+
+*Note: This function uses `Object.defineProperties` to make all the named exports non-enumerable. Therefore, when the consumer logs the default value with `console.log`, all the named exports will be hidden (unless the module has no default export) but can still be accessed via destructuring with `import` or `require`.*
 
 ## Install
 ```bash
@@ -77,10 +166,13 @@ writeFileSync('./minify.js', minify)
 - **`minify`** (*type: `boolean`* | *default: `false`*)<br/>
 To produce the minified or pretty format.
 
+- **`defineEsModule`** (*type: `boolean|undefined`* | *default: `undefined`*)<br/>
+To specify whether to define `exports.__esModule`.
+
 ## Types
 ```typescript
 import type {
-  Options // An interface to validate options.
+  Options // An interface to validate the options.
 } from '@mnrendra/mixexports'
 ```
 

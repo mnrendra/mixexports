@@ -36,7 +36,8 @@ const config: Config = {
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: [
     '/node_modules/',
-    '/tests/'
+    '/tests/',
+    '/dummies/'
   ],
 
   // Indicates which provider should be used to instrument code for coverage
