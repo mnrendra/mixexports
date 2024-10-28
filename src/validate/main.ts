@@ -1,6 +1,6 @@
 import type { Expor } from '../types'
 
-import compile from './compile'
+import compile from 'require-from-string'
 import validateDefaultExport from './validateDefaultExport'
 
 const main = (
