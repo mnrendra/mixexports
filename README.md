@@ -163,10 +163,14 @@ writeFileSync('./minify.js', minify)
 ```
 
 ## Options
-- **`minify`** (*type: `boolean`* | *default: `false`*)<br/>
+- **`minify`**<br/>
+*type: `boolean`*<br/>
+*default: `false`*<br/>
 To produce the minified or pretty format.
 
-- **`defineEsModule`** (*type: `boolean|undefined`* | *default: `undefined`*)<br/>
+- **`defineEsModule`**<br/>
+*type: `boolean|undefined`*<br/>
+*default: `undefined`*<br/>
 To specify whether to define `exports.__esModule`.
 
 ## Types
