@@ -4,17 +4,20 @@ import { parse } from 'acorn'
 import { simple } from 'acorn-walk'
 import { generate } from 'escodegen'
 
+import parseShebang from './parseShebang'
 import assignmentExpression from './assignmentExpression'
 import callExpression from './callExpression'
 
 const main = (
-  code: string
-): { code: string, expor: Expor } => {
+  source: string
+): { shebang?: string, code: string, expor: Expor } => {
   const states: States = {
     hasModuleExports: false,
     hasExportsDefault: false,
     expor: {}
   }
+
+  const { shebang, code } = parseShebang(source)
 
   const ast = parse(code, { sourceType: 'module', ecmaVersion: 'latest' })
 
@@ -30,6 +33,7 @@ const main = (
   }
 
   return {
+    shebang,
     code: generate(ast),
     expor: states.expor
   }
