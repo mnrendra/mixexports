@@ -20,15 +20,25 @@ const main = async (source: string, {
   defineEsModule,
   minify = false
 }: Options = {}): Promise<string> => {
-  const { code, expor } = parse(source)
+  const { shebang, code, expor } = parse(source)
 
-  const { hasDefault } = validate(code, expor)
+  const hasShebang = typeof shebang === 'string'
+  const hasExports = Object.keys(expor).length > 0
 
-  const mixed = mix(code, { hasDefault, defineEsModule, expor })
+  let mixed = ''
+
+  if (hasShebang && hasExports) {
+    throw new Error(`Your code contains a shebang "${shebang}" and exports, so it cannot be processed!`)
+  } else if (!hasShebang && hasExports) {
+    const { hasDefault } = validate(code, expor)
+    mixed = mix(code, { hasDefault, defineEsModule, expor })
+  } else if (hasShebang && !hasExports) {
+    mixed = code
+  }
 
   const { code: transformed } = await transform(mixed, { format: 'cjs', minify })
 
-  return transformed
+  return hasShebang ? `${shebang}\n${transformed}` : transformed
 }
 
 export default main
