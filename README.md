@@ -176,7 +176,7 @@ To specify whether to define `exports.__esModule`.
 ## Types
 ```typescript
 import type {
-  Options // An interface to validate the options.
+  Options // The options interface.
 } from '@mnrendra/mixexports'
 ```
 
