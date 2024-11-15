@@ -9,10 +9,10 @@ import mix from './mix'
 /**
  * A function to mix **CommonJS** exports.
  *
- * @param {string} source The source code as a string.
- * @param {Options} options The options object.
+ * @param {string} source - The source code in a string.
+ * @param {Options} options - The options object.
  *
- * @returns Modified code as a string.
+ * @returns {string} Modified code in a string.
  *
  * @see https://github.com/mnrendra/mixexports#readme
  */

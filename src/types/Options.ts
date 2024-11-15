@@ -1,5 +1,5 @@
 /**
- * `mixexports` options interface.
+ * The options interface.
  *
  * @see https://github.com/mnrendra/mixexports#readme
  */
