@@ -1,6 +1,6 @@
 {
   "name": "@mnrendra/mixexports",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "A function to mix CommonJS exports.",
   "private": false,
   "main": "dist/index.js",
