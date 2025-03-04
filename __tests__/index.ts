@@ -231,36 +231,61 @@ describe('Test all features:', () => {
 
   it('Should resolve "./tests/dummies/4.expected.min.js" when given "./tests/dummies/4.resource.js"!', async () => {
     const resource = read('./tests/dummies/4.resource.js')
-    const received = await index(resource, { defineEsModule: true, minify: true })
+    const received = await index(resource, {
+      defineEsModule: true,
+      minify: true
+    })
+
     const expected = read('./tests/dummies/4.expected.min.js')
+
     expect(received).toBe(expected)
   })
 
   it('Should resolve "./tests/dummies/5.expected.min.js" when given "./tests/dummies/5.resource.js"!', async () => {
     const resource = read('./tests/dummies/5.resource.js')
-    const received = await index(resource, { defineEsModule: false, minify: true })
+    const received = await index(resource, {
+      defineEsModule: false,
+      minify: true
+    })
+
     const expected = read('./tests/dummies/5.expected.min.js')
+
     expect(received).toBe(expected)
   })
 
   it('Should resolve "./tests/dummies/6.expected.min.js" when given "./tests/dummies/6.resource.js"!', async () => {
     const resource = read('./tests/dummies/6.resource.js')
-    const received = await index(resource, { defineEsModule: true, minify: true })
+    const received = await index(resource, {
+      defineEsModule: true,
+      minify: true
+    })
+
     const expected = read('./tests/dummies/6.expected.min.js')
+
     expect(received).toBe(expected)
   })
 
   it('Should resolve "./tests/dummies/7.expected.min.js" when given "./tests/dummies/7.resource.js"!', async () => {
     const resource = read('./tests/dummies/7.resource.js')
-    const received = await index(resource, { defineEsModule: false, minify: true })
+    const received = await index(resource, {
+      defineEsModule: false,
+      minify: true
+    })
+
     const expected = read('./tests/dummies/7.expected.min.js')
+
     expect(received).toBe(expected)
   })
 
   it('Should resolve "./tests/dummies/8.expected.min.js" when given "./tests/dummies/8.resource.js"!', async () => {
     const resource = read('./tests/dummies/8.resource.js')
-    const received = await index(resource, { defineEsModule: false, minify: true })
+    const received = await index(resource, {
+      defineEsModule: false,
+      minify: true
+    })
+
     const expected = read('./tests/dummies/8.expected.min.js')
+
     expect(received).toBe(expected)
   })
 
